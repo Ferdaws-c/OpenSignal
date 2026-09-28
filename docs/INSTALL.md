@@ -60,7 +60,7 @@ You should see **OpenSignal — Registration Watch** in the extension list.
 
 Choose **VGM scholarship**, **DV Lottery**, or **Add a watch**. Review the fields, click **Save & check**, and allow access to the website if asked.
 
-To check automatically on Chrome startup, expand **Settings & test alert** and enable **Check when Chrome starts**. It is off by default and saves automatically.
+To check automatically on Chrome startup, expand **Settings & test alert** and enable **Check when Chrome starts**. It is off by default and saves automatically. Your on/off choice stays saved across restarts and updates; enabled checks wait 30 seconds after Chrome starts.
 
 Follow [the beginner's how-to guide](HOW-TO.md) for the next steps.
 
@@ -91,9 +91,9 @@ Updating files in the same folder preserves the extension identity and local set
 | **Check failed** | Check your internet connection, open the page yourself, and try **Check now**. Some websites block automated page requests. |
 | **Needs review** | The page may need login/JavaScript, contain an old year, or use different wording. See [the how-to guide](HOW-TO.md#when-a-watch-needs-review). |
 | No desktop banner | In OpenSignal, enable desktop alerts. Try the dummy notification. In Windows, check **Settings → System → Notifications**, and check Do Not Disturb. |
-| It did not notify while I was away | OpenSignal checks only when you open the popup or press **Check now**. Enable **Check when Chrome starts** for one check on browser-profile startup. It has no scheduled background polling. Opening extra windows does not trigger another startup. |
+| It did not notify while I was away | OpenSignal checks when you open the popup or press **Check now**. Enable **Check when Chrome starts** for one check after a 30-second wait on browser-profile startup. It has no scheduled background polling. Opening extra windows does not trigger another startup. |
 
-Use Chrome 116 or newer. You can check Chrome's version in **Menu → Help → About Google Chrome**.
+Use Chrome 120 or newer. You can check Chrome's version in **Menu → Help → About Google Chrome**.
 
 ## Remove it
 

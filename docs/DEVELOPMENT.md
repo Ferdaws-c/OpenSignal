@@ -52,12 +52,14 @@ With the same PLAYWRIGHT_MODULE and CHROME_EXE settings, run:
 node tests/run-startup.cjs
 ```
 
-This runner creates an isolated Chrome profile and a localhost-only test copy. It loads the fixture through CDP, then uses Chrome's normal developer-mode Reload flow so the fixture persists across actual browser process restarts. It verifies the default, both settings toggles, a real startup fetch without the popup, status/alert state/badge, no polling, extra windows, opt-out, and saved state. It does not edit your normal browser profile or Chrome security settings.
+This runner creates an isolated Chrome profile and a localhost-only test copy. It loads the fixture through CDP, then uses Chrome's normal developer-mode Reload flow so the fixture persists across actual browser process restarts. It verifies the saved default and choices, reload/update preservation, a real 30-second startup delay without the popup, an explicitly stopped worker woken by the alarm, status/alert state/badge, one-shot consumption, extra windows, cancellation, opt-out, and immediate manual checks. The test intentionally waits for the actual 30-second deadline. It does not edit your normal browser profile or Chrome security settings.
 
 ## Design constraints
 
-- Check on popup open or explicit **Check now**, plus an optional one-shot runtime.onStartup check; no polling.
+- Check on popup open or explicit **Check now**, plus an optional one-shot runtime.onStartup check delayed 30 seconds using chrome.alarms; no polling.
 - Keep data local and request optional access per saved site.
+- Keep the onStartup choice in local storage, and its pending deadline in session storage. Clear stale/cancelled alarms. No bare setTimeout in the worker.
+- Require Chrome 120+ for 30-second alarm support.
 - Omit cookies, enforce fetch time/size limits, reject cross-site redirects.
 - Keep fetched scripts inert and ignore hidden/navigation/footer text.
 - Prefer review/error states over an unsupported opening claim.

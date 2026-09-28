@@ -39,7 +39,7 @@ async function render() {
   $("onStartup").checked = settings.onStartup;
   $("count").textContent = String(currentWatches.length);
   $("checkAll").disabled = Boolean(saved.checking);
-  $("checkStatus").textContent = saved.checking ? "Checking your pages…" : (settings.onStartup ? "Checks on Chrome start and popup open." : "Checked when you open OpenSignal.");
+  $("checkStatus").textContent = saved.checking ? "Checking your pages…" : (settings.onStartup ? "Chrome-start checks wait 30 seconds." : "Checked when you open OpenSignal.");
   $("empty").hidden = currentWatches.length > 0;
   const list = $("watchList"); list.replaceChildren();
   for (const watch of currentWatches) {

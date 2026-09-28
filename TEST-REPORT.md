@@ -2,8 +2,8 @@
 
 Date: 28 September 2026
 Browser: Google Chrome 154.0.8037.57, isolated headless test profile
-Version: 1.1.0
-Result: **58 automated rule/request tests + 40 Chrome workflow checks + 9 Chrome-start checks passed; 0 failures in the final suites.**
+Version: 1.2.0
+Result: **58 automated rule/request tests + 40 Chrome workflow checks + 15 delayed Chrome-start checks passed; 0 failures in the final suites.**
 
 ## Automated rule and request tests — 58 passed
 
@@ -49,19 +49,27 @@ Result: **58 automated rule/request tests + 40 Chrome workflow checks + 9 Chrome
 - No unhandled page errors occurred.
 - Delete removed the watch and updated the badge.
 
-## Chrome-start validation — 9 checks passed
+## Delayed Chrome-start validation — 15 checks passed
 
-- Chrome-start checking is off by default.
-- Enabling it preserves the desktop-alert setting.
-- Changing desktop alerts preserves the Chrome-start setting.
-- A real Chrome process restart fetches the dummy page without opening the popup.
-- The startup check saves Open status, native alert state, and a green toolbar badge.
-- The startup check is one-shot with no ongoing polling.
-- Opening an additional window does not repeat a startup check.
-- Disabling the setting prevents requests after the next restart.
-- Saved watches, alert memory, and the setting survive browser restarts.
+- Chrome-start checking defaults to off with no scheduled alarm.
+- Enabling startup checking saves the choice and preserves alerts.
+- Desktop-alert changes preserve the saved startup choice.
+- Reloading/updating keeps the enabled choice and saved watch.
+- Real Chrome restart restores the enabled startup choice.
+- Startup schedules one alarm at least 30 seconds later without fetching.
+- Pending startup check survives stopping the service worker.
+- Chrome wakes the worker and checks after the real 30-second delay.
+- Delayed startup check saves Open, native alert state, and badge.
+- Completed startup alarm is consumed and does not poll.
+- Opening an extra window does not schedule or run another check.
+- Switching startup checking off cancels the pending alarm.
+- The disabled choice survives restart and schedules no requests.
+- Opening the popup checks immediately and cancels the pending startup check.
+- Watches, enabled choice, and duplicate-alert memory remain saved.
 
-The startup runner uses a new disposable Chrome profile and a localhost-only test copy. A normal Chrome developer-mode Reload converts the CDP-loaded fixture into a persistent unpacked install before real restarts. No normal user profile or security setting is changed.
+The configured delay was 30,000 ms. The observed first dummy request was 30.44 seconds after restarting Chrome. The worker was explicitly stopped during the delay, and Chrome’s alarm woke it to complete the check.
+
+The runner uses a disposable profile and localhost-only test copy. A normal developer-mode Reload persists the CDP fixture before real restarts. No normal browser profile or security setting is changed.
 
 ## Test setup and limits
 
@@ -71,7 +79,7 @@ A local dummy HTTP server supplied changing registration pages and HTTP errors. 
 
 Chrome's actual notification API completed successfully. This does not verify that Windows displayed a visible toast banner; Do Not Disturb and OS/browser notification settings can hide it. Use Settings & test alert in the installed extension to check that.
 
-The extension checks when its popup opens or Check now is clicked. With the optional setting enabled, it also checks once when this Chrome profile starts via runtime.onStartup. The option is off by default. There are no alarms, periodic polling, AI API calls, or tokens.
+The extension checks when its popup opens or Check now is clicked. With the optional setting enabled, it schedules one check after a 30-second startup delay using a one-shot Chrome alarm. The choice stays saved and is off by default. Turning it off or starting a manual check cancels the pending startup check. There is no periodic polling, AI API call, or token use.
 
 VGM and DV are configurable starter rules, not a claim that their live registration forms are currently open. JavaScript-only, login, CAPTCHA, and blocked pages may require manual review. Phrase/date matches cannot prove eligibility or that a remote form will accept a submission.
 

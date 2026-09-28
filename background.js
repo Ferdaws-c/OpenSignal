@@ -1,5 +1,11 @@
 import {validateWatch, safeUrl, nextState} from "./core.js";
 import {checkWatch} from "./checker.js";
+const STARTUP_ALARM = "opensignal-startup";
+const STARTUP_DELAY_MS = 30_000;
+async function cancelStartupCheck() {
+  await chrome.alarms.clear(STARTUP_ALARM);
+  await chrome.storage.session.remove("startupCheckAt");
+}
 let queue = Promise.resolve();
 let runningCheck;
 function serial(task) {
@@ -69,7 +75,11 @@ async function runChecks(ids) {
 }
 function startCheck(ids) {
   if (runningCheck) return runningCheck;
-  runningCheck = serial(() => runChecks(ids)).finally(() => { runningCheck = null; });
+  runningCheck = serial(async () => {
+    // An explicit check replaces a pending startup check, avoiding a second fetch.
+    await cancelStartupCheck();
+    return runChecks(ids);
+  }).finally(() => { runningCheck = null; });
   return runningCheck;
 }
 async function dispatch(message) {
@@ -107,6 +117,7 @@ async function dispatch(message) {
       if (typeof message.settings?.[key] === "boolean") settings[key] = message.settings[key];
     }
     await chrome.storage.local.set({settings});
+    if (settings.onStartup !== true) await cancelStartupCheck();
     return settings;
   });
   if (message.type === "testNotification") {
@@ -123,16 +134,41 @@ chrome.runtime.onMessage.addListener((message, sender, respond) => {
 });
 chrome.runtime.onInstalled.addListener(() => serial(async () => {
   const state = await ensureState(); await chrome.storage.local.set({...state, checking:false}); await badge(state.watches);
+  await cancelStartupCheck();
 }));
-// Registered at module load so Chrome can wake the worker on profile startup.
+// Registered at module load so Chrome can wake the worker for either event.
 chrome.runtime.onStartup.addListener(() => {
   serial(async () => {
     const {watches, settings} = await ensureState();
-    // A previous browser shutdown may have interrupted a check.
+    // A previous browser shutdown may have interrupted a check or alarm.
     await chrome.storage.local.set({checking:false});
     await badge(watches);
-    return settings.onStartup === true;
-  }).then(enabled => enabled ? startCheck() : undefined).catch(console.error);
+    await cancelStartupCheck();
+    if (settings.onStartup === true) {
+      const startupCheckAt = Date.now() + STARTUP_DELAY_MS;
+      await chrome.storage.session.set({startupCheckAt});
+      await chrome.alarms.create(STARTUP_ALARM, {when:startupCheckAt});
+    }
+  }).catch(console.error);
+});
+chrome.alarms.onAlarm.addListener(alarm => {
+  if (alarm.name !== STARTUP_ALARM) return;
+  serial(async () => {
+    const {settings} = await ensureState();
+    const {startupCheckAt} = await chrome.storage.session.get("startupCheckAt");
+    if (!Number.isFinite(startupCheckAt) || settings.onStartup !== true) {
+      await cancelStartupCheck();
+      return false;
+    }
+    // Ignore a stale alarm from an earlier session. Never check before the deadline.
+    if (alarm.scheduledTime < startupCheckAt) return false;
+    if (Date.now() < startupCheckAt) {
+      await chrome.alarms.create(STARTUP_ALARM, {when:startupCheckAt});
+      return false;
+    }
+    await chrome.storage.session.remove("startupCheckAt");
+    return true;
+  }).then(ready => ready ? startCheck() : undefined).catch(console.error);
 });
 async function openNotification(id) {
   if (!id.startsWith("open:")) return;

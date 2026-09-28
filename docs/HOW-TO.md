@@ -72,15 +72,15 @@ Open phrases work as alternatives: **any one** can match. Put each phrase on its
 2. Expand **Settings & test alert**.
 3. Turn on **Check when Chrome starts**.
 
-The choice saves automatically. From then on, OpenSignal checks your enabled watches once when this Chrome profile starts, even if you never click its icon. Website access must already have been granted when you saved the watches.
+The choice saves automatically and stays on across browser restarts and extension updates. From then on, OpenSignal waits 30 seconds after this Chrome profile starts and checks your enabled watches once, even if you never click its icon. Website access must already have been granted when you saved the watches.
 
 ![The Chrome-start setting enabled in OpenSignal](images/startup-settings.png)
 
-This option is **off by default**. Turn it off whenever you prefer manual checks.
+This option is **off by default**. Turn it off whenever you prefer manual checks; switching it off cancels a pending startup check. If it was already on, the update keeps it on.
 
 A startup means Chrome actually starts this browser profile. Opening another window while Chrome is already running does not trigger another startup check. If Chrome stays running in the background, use Chrome's menu → **Exit**, then reopen Chrome to test it. Incognito startup does not trigger this check.
 
-There is no repeated polling after the startup check. **Check now** and opening the popup still work. If you are offline at startup, the card can show **Check failed**; open OpenSignal later to try again.
+There is no repeated polling after the startup check. Chrome may run the check later if the computer is busy or asleep. **Check now** and opening the popup still check immediately; they cancel a pending startup check to avoid checking twice. If you are offline at startup, the card can show **Check failed**; open OpenSignal later to try again.
 
 ## Check your watches
 

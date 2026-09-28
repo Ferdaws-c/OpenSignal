@@ -12,11 +12,11 @@ A small personal Chrome extension for scholarship applications, event registrati
 6. Click its green circle icon. Choose **VGM scholarship**, **DV Lottery**, or **Add a watch**.
 7. Save the watch and approve access to that website when Chrome asks.
 
-Do not remove the extracted folder after installation. This is a local unpacked extension, not a Chrome Web Store listing. It works with Manifest V3 on Chrome 116+.
+Do not remove the extracted folder after installation. This is a local unpacked extension, not a Chrome Web Store listing. It works with Manifest V3 on Chrome 120+.
 
 ## When it checks
 
-Every time you open the extension popup, it checks your enabled watches. **Check now** runs another check. Enable **Settings & test alert → Check when Chrome starts** for one automatic check on profile startup. This option is off by default; it runs without opening the popup. It uses Chrome's runtime.onStartup event, which fires when this browser profile first starts, not when additional windows open. There is no timer or scheduled polling. If Chrome remains running in the background, a new window is not a new profile startup.
+Every time you open the extension popup, it checks your enabled watches. **Check now** runs another check. Enable **Settings & test alert → Check when Chrome starts** for one automatic check after a 30-second wait on profile startup. This option is off by default; your saved on/off choice survives restarts and updates. It runs without opening the popup. It uses Chrome's runtime.onStartup event, which fires when this browser profile first starts, not when additional windows open. A one-shot Chrome alarm handles the delay without keeping the worker awake. There is no repeating timer or periodic polling. Disabling the option or starting a manual check cancels the pending startup check; a later browser startup gets a fresh 30-second deadline. Chrome can deliver the alarm later under load or after device sleep. If Chrome remains running in the background, a new window is not a new profile startup.
 
 No AI model, API key, tokens, account, or subscription is required to use this extension. Checking still requires internet access and uses normal network data.
 
@@ -79,6 +79,7 @@ Required permissions:
 - **storage:** Save watches and recent results.
 - **notifications:** Show an opening alert.
 - **offscreen:** Parse fetched HTML in an inert local document; the parser closes after the check.
+- **alarms:** Wake the extension once after the 30-second Chrome-start delay. No repeating alarm is created.
 
 Website access is optional and requested per saved site. Requests omit cookies and use fresh responses. The extension never injects code into your browsing tabs. Revoking website access stops checks for that site.
 
@@ -100,4 +101,6 @@ Startup event reference: https://developer.chrome.com/docs/extensions/reference/
 - Optional website permissions: https://developer.chrome.com/docs/extensions/reference/api/permissions
 - Notifications: https://developer.chrome.com/docs/extensions/reference/api/notifications
 - Offscreen DOM parsing: https://developer.chrome.com/docs/extensions/reference/api/offscreen
+- One-shot alarms: https://developer.chrome.com/docs/extensions/reference/api/alarms
+- Worker lifecycle and Chrome 120 timing: https://developer.chrome.com/docs/extensions/develop/concepts/service-workers/lifecycle
 

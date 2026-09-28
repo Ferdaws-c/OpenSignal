@@ -1,43 +1,71 @@
 {
-  "passed": 9,
+  "passed": 15,
   "failed": 0,
   "cases": [
     {
-      "name": "Chrome-start checking is off by default",
+      "name": "Chrome-start checking defaults to off with no scheduled alarm",
       "passed": true
     },
     {
-      "name": "Startup toggle saves without changing desktop alerts",
+      "name": "Enabling startup checking saves the choice and preserves alerts",
       "passed": true
     },
     {
-      "name": "Desktop alerts toggle preserves Chrome-start choice",
+      "name": "Desktop-alert changes preserve the saved startup choice",
       "passed": true
     },
     {
-      "name": "Real Chrome restart checks without opening the extension popup",
+      "name": "Reloading/updating keeps the enabled choice and saved watch",
       "passed": true
     },
     {
-      "name": "Startup check saves open status, native alert state and badge",
+      "name": "Real Chrome restart restores the enabled startup choice",
       "passed": true
     },
     {
-      "name": "Startup check is one-shot with no ongoing polling",
+      "name": "Startup schedules one alarm at least 30 seconds later without fetching",
       "passed": true
     },
     {
-      "name": "A new browser window does not run a startup check",
+      "name": "Pending startup check survives stopping the service worker",
       "passed": true
     },
     {
-      "name": "Disabling Chrome-start checking prevents requests after restart",
+      "name": "Chrome wakes the worker and checks after the real 30-second delay",
       "passed": true
     },
     {
-      "name": "Saved watches and startup setting persist across restarts",
+      "name": "Delayed startup check saves Open, native alert state, and badge",
+      "passed": true
+    },
+    {
+      "name": "Completed startup alarm is consumed and does not poll",
+      "passed": true
+    },
+    {
+      "name": "Opening an extra window does not schedule or run another check",
+      "passed": true
+    },
+    {
+      "name": "Switching startup checking off cancels the pending alarm",
+      "passed": true
+    },
+    {
+      "name": "The disabled choice survives restart and schedules no requests",
+      "passed": true
+    },
+    {
+      "name": "Opening the popup checks immediately and cancels the pending startup check",
+      "passed": true
+    },
+    {
+      "name": "Watches, enabled choice, and duplicate-alert memory remain saved",
       "passed": true
     }
   ],
-  "chromeVersion": "154.0.8037.57"
+  "chromeVersion": "154.0.8037.57",
+  "configuredDelayMs": 30000,
+  "observedStartupRequestDelayMs": 30444,
+  "workerSleep": "Worker explicitly stopped during delay; real Chrome alarm woke it.",
+  "testSetup": "Disposable profile; normal Chrome Reload persists CDP fixture; only test copy grants localhost access."
 }

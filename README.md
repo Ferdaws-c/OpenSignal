@@ -8,12 +8,12 @@ A lightweight Chrome extension for scholarship applications, event sign-ups, tic
 
 [**Download OpenSignal.zip**](https://github.com/Ferdaws-c/OpenSignal/releases/latest/download/OpenSignal.zip) · [Install on your PC](docs/INSTALL.md) · [Beginner's how-to guide](docs/HOW-TO.md) · [Test report](TEST-REPORT.md)
 
-> **When does it check?** Every time you open the extension popup or click **Check now**. Enable **Check when Chrome starts** for one automatic check when your Chrome profile starts; this option is off by default. There is no scheduled polling. An opening that happens and ends between checks can be missed.
+> **When does it check?** Every time you open the extension popup or click **Check now**. Enable **Check when Chrome starts** for one automatic check 30 seconds after your Chrome profile starts; this option is off by default. There is no scheduled polling. An opening that happens and ends between checks can be missed.
 
 ## What it does
 
 - Saves up to 50 registration watches.
-- Optionally checks once when Chrome starts, without opening the extension popup.
+- Optionally checks once, 30 seconds after Chrome starts, without opening the extension popup.
 - Shows **Open**, **Upcoming**, **Closed**, or an explanation when a page needs review.
 - Sends a desktop notification when a watch first appears open, and shows a green toolbar badge.
 - Includes starters for the VGM foreign-student scholarship and the official DV Lottery entry portal.
@@ -21,7 +21,7 @@ A lightweight Chrome extension for scholarship applications, event sign-ups, tic
 - Keeps your settings and results locally in your Chrome profile.
 - Includes 16 dummy scenarios so you can see how the checks work.
 
-No account, subscription, API key, or AI tokens are needed. It uses ordinary internet data when checking pages. The extension package is about 50 KB; this repository also includes documentation, screenshots, and tests.
+No account, subscription, API key, or AI tokens are needed. It uses ordinary internet data when checking pages. The extension package is about 60 KB; this repository also includes documentation, screenshots, and tests.
 
 **It is a reminder tool.** It does not fill in forms, submit applications, guarantee eligibility, or reserve a place. Always visit the official website to confirm and register.
 
@@ -40,7 +40,7 @@ You do not need Git, Node.js, coding skills, or a GitHub account.
 
 If Chrome says it cannot find the manifest, open the extracted folder and look one folder deeper. Select the folder containing `manifest.json`, not the ZIP.
 
-**Keep that folder after installation.** Chrome loads the extension from it. This is an unpacked extension, rather than a Chrome Web Store listing. Chrome 116 or later is required.
+**Keep that folder after installation.** Chrome loads the extension from it. This is an unpacked extension, rather than a Chrome Web Store listing. Chrome 120 or later is required.
 
 [Read the full installation guide, including common fixes →](docs/INSTALL.md)
 
@@ -74,7 +74,9 @@ Choose phrases from the actual page. Avoid very broad words such as “open”; 
 
 ## Check automatically when Chrome starts
 
-Expand **Settings & test alert** in the popup and enable **Check when Chrome starts**. The setting saves automatically and is off by default. It checks your enabled watches once when this Chrome profile starts, then stops.
+Expand **Settings & test alert** in the popup and enable **Check when Chrome starts**. The setting saves automatically and is off by default. It remembers your on/off choice across restarts and updates. When enabled, it waits 30 seconds after this Chrome profile starts, checks your enabled watches once, then stops. Chrome may run the check later if the computer is busy or asleep.
+
+Turning the option off cancels a pending startup check. Opening the popup or pressing **Check now** checks immediately and replaces the pending startup check, avoiding an extra fetch.
 
 ![OpenSignal with Chrome-start checking enabled](docs/images/startup-settings.png)
 
@@ -120,7 +122,7 @@ Keep the round/year and phrases current. Read the official page before acting on
 
 ## Tested with dummy data
 
-**58 rule/request tests, 40 Chrome workflow checks, and 9 Chrome-start checks passed.** The browser checks used an isolated Chrome profile and dummy pages, including changing open/closed states, blocked pages, permission failures, duplicate alerts, and all 16 built-in scenarios.
+**58 rule/request tests, 40 Chrome workflow checks, and 15 delayed Chrome-start checks passed.** The browser checks used an isolated Chrome profile and dummy pages, including changing open/closed states, blocked pages, permission failures, duplicate alerts, and all 16 built-in scenarios.
 
 Chrome's native notification API accepted the test alerts. Visible Windows banners still depend on your notification settings.
 
