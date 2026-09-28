@@ -8,11 +8,12 @@ A lightweight Chrome extension for scholarship applications, event sign-ups, tic
 
 [**Download OpenSignal.zip**](https://github.com/Ferdaws-c/OpenSignal/releases/latest/download/OpenSignal.zip) · [Install on your PC](docs/INSTALL.md) · [Beginner's how-to guide](docs/HOW-TO.md) · [Test report](TEST-REPORT.md)
 
-> **When does it check?** Every time you open the extension popup, or click **Check now**. It does not run a schedule or keep checking while the popup stays closed. An opening that happens and ends between checks can be missed.
+> **When does it check?** Every time you open the extension popup or click **Check now**. Enable **Check when Chrome starts** for one automatic check when your Chrome profile starts; this option is off by default. There is no scheduled polling. An opening that happens and ends between checks can be missed.
 
 ## What it does
 
 - Saves up to 50 registration watches.
+- Optionally checks once when Chrome starts, without opening the extension popup.
 - Shows **Open**, **Upcoming**, **Closed**, or an explanation when a page needs review.
 - Sends a desktop notification when a watch first appears open, and shows a green toolbar badge.
 - Includes starters for the VGM foreign-student scholarship and the official DV Lottery entry portal.
@@ -71,6 +72,14 @@ Choose phrases from the actual page. Avoid very broad words such as “open”; 
 
 [Follow the beginner's guide with a worked example →](docs/HOW-TO.md)
 
+## Check automatically when Chrome starts
+
+Expand **Settings & test alert** in the popup and enable **Check when Chrome starts**. The setting saves automatically and is off by default. It checks your enabled watches once when this Chrome profile starts, then stops.
+
+![OpenSignal with Chrome-start checking enabled](docs/images/startup-settings.png)
+
+Opening another Chrome window while the profile is already running does not trigger a startup check. If Chrome keeps running in the background, use its menu → **Exit**, then reopen it to test the setting. [Read the startup-check guide](docs/HOW-TO.md#check-automatically-when-chrome-starts).
+
 ## Understand the result
 
 | Result | What it means | What to do |
@@ -111,7 +120,7 @@ Keep the round/year and phrases current. Read the official page before acting on
 
 ## Tested with dummy data
 
-**58 rule/request tests and 40 Chrome checks passed.** The browser checks used an isolated Chrome profile and dummy pages, including changing open/closed states, blocked pages, permission failures, duplicate alerts, and all 16 built-in scenarios.
+**58 rule/request tests, 40 Chrome workflow checks, and 9 Chrome-start checks passed.** The browser checks used an isolated Chrome profile and dummy pages, including changing open/closed states, blocked pages, permission failures, duplicate alerts, and all 16 built-in scenarios.
 
 Chrome's native notification API accepted the test alerts. Visible Windows banners still depend on your notification settings.
 

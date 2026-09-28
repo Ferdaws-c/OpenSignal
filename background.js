@@ -10,7 +10,7 @@ function serial(task) {
 async function ensureState() {
   const saved = await chrome.storage.local.get(["watches","settings"]);
   if (!Array.isArray(saved.watches)) saved.watches = [];
-  saved.settings = {notifications:true, ...(saved.settings || {})};
+  saved.settings = {notifications:true, onStartup:false, ...(saved.settings || {})};
   return saved;
 }
 async function badge(watches) {
@@ -102,7 +102,10 @@ async function dispatch(message) {
   });
   if (message.type === "settings") return serial(async () => {
     const saved = await ensureState();
-    const settings = {notifications:message.settings.notifications === true};
+    const settings = {...saved.settings};
+    for (const key of ["notifications", "onStartup"]) {
+      if (typeof message.settings?.[key] === "boolean") settings[key] = message.settings[key];
+    }
     await chrome.storage.local.set({settings});
     return settings;
   });
@@ -121,6 +124,16 @@ chrome.runtime.onMessage.addListener((message, sender, respond) => {
 chrome.runtime.onInstalled.addListener(() => serial(async () => {
   const state = await ensureState(); await chrome.storage.local.set({...state, checking:false}); await badge(state.watches);
 }));
+// Registered at module load so Chrome can wake the worker on profile startup.
+chrome.runtime.onStartup.addListener(() => {
+  serial(async () => {
+    const {watches, settings} = await ensureState();
+    // A previous browser shutdown may have interrupted a check.
+    await chrome.storage.local.set({checking:false});
+    await badge(watches);
+    return settings.onStartup === true;
+  }).then(enabled => enabled ? startCheck() : undefined).catch(console.error);
+});
 async function openNotification(id) {
   if (!id.startsWith("open:")) return;
   const {watches} = await ensureState();

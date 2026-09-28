@@ -2,7 +2,7 @@
 
 Think of a **watch** as a bookmark with a small checklist. You choose a registration page and the wording that means it is open. When you click OpenSignal, it reads the page and checks that wording.
 
-It does not keep checking all day. Click the icon whenever you want an update.
+It does not keep checking all day. Click the icon whenever you want an update, or enable the optional check when Chrome starts.
 
 ## Start with a built-in option
 
@@ -65,6 +65,22 @@ sold out
 Those are example phrases. Use wording appropriate to your real event. The example address shown in the screenshot is not a live event registration page.
 
 Open phrases work as alternatives: **any one** can match. Put each phrase on its own line. Closed and not-open-yet phrases take priority when they appear in the chosen section.
+
+## Check automatically when Chrome starts
+
+1. Click the OpenSignal icon.
+2. Expand **Settings & test alert**.
+3. Turn on **Check when Chrome starts**.
+
+The choice saves automatically. From then on, OpenSignal checks your enabled watches once when this Chrome profile starts, even if you never click its icon. Website access must already have been granted when you saved the watches.
+
+![The Chrome-start setting enabled in OpenSignal](images/startup-settings.png)
+
+This option is **off by default**. Turn it off whenever you prefer manual checks.
+
+A startup means Chrome actually starts this browser profile. Opening another window while Chrome is already running does not trigger another startup check. If Chrome stays running in the background, use Chrome's menu → **Exit**, then reopen Chrome to test it. Incognito startup does not trigger this check.
+
+There is no repeated polling after the startup check. **Check now** and opening the popup still work. If you are offline at startup, the card can show **Check failed**; open OpenSignal later to try again.
 
 ## Check your watches
 
@@ -136,6 +152,6 @@ The lab uses a fixed sample clock. It makes no requests to real websites and doe
 
 Click OpenSignal when you want to check your opportunities. Read any **Needs review** or **Check failed** messages. If a watch turns **Open**, visit the official page and apply there.
 
-Because there is no scheduled polling, a short opening can be missed between your checks. Check time-sensitive opportunities more often yourself.
+Even with Chrome-start checking enabled, there is no scheduled polling. A short opening can be missed between checks. Check time-sensitive opportunities more often yourself.
 
 [Back to README](../README.md) · [Installation help](INSTALL.md) · [Advanced reference](REFERENCE.md)

@@ -16,7 +16,7 @@ Do not remove the extracted folder after installation. This is a local unpacked 
 
 ## When it checks
 
-Every time you open the extension popup, it checks your enabled watches. **Check now** runs another check. There is no timer or scheduled polling, and no checks while the extension stays closed.
+Every time you open the extension popup, it checks your enabled watches. **Check now** runs another check. Enable **Settings & test alert → Check when Chrome starts** for one automatic check on profile startup. This option is off by default; it runs without opening the popup. It uses Chrome's runtime.onStartup event, which fires when this browser profile first starts, not when additional windows open. There is no timer or scheduled polling. If Chrome remains running in the background, a new window is not a new profile startup.
 
 No AI model, API key, tokens, account, or subscription is required to use this extension. Checking still requires internet access and uses normal network data.
 
@@ -91,6 +91,8 @@ Click **Try sample scenarios** in the popup. The built-in lab has 16 dummy scena
 The lab performs no network requests and leaves your real watches unchanged. A separate dummy-notification button tests the browser's desktop notification API.
 
 See [TEST-REPORT.md](../TEST-REPORT.md) for automated validation and limits.
+
+Startup event reference: https://developer.chrome.com/docs/extensions/reference/api/runtime#event-onStartup
 
 ## Official Chrome references
 

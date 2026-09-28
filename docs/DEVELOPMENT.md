@@ -44,9 +44,19 @@ The runner creates a temporary extension copy and an isolated temporary browser 
 
 The report JSON is written inside the temporary `opensignal-test-*` folder. See [TEST-REPORT.md](../TEST-REPORT.md) for the last recorded results and notification-banner limitations.
 
+## Chrome-start tests
+
+With the same PLAYWRIGHT_MODULE and CHROME_EXE settings, run:
+
+```powershell
+node tests/run-startup.cjs
+```
+
+This runner creates an isolated Chrome profile and a localhost-only test copy. It loads the fixture through CDP, then uses Chrome's normal developer-mode Reload flow so the fixture persists across actual browser process restarts. It verifies the default, both settings toggles, a real startup fetch without the popup, status/alert state/badge, no polling, extra windows, opt-out, and saved state. It does not edit your normal browser profile or Chrome security settings.
+
 ## Design constraints
 
-- Check on popup open or explicit **Check now**; no polling or browser-startup check.
+- Check on popup open or explicit **Check now**, plus an optional one-shot runtime.onStartup check; no polling.
 - Keep data local and request optional access per saved site.
 - Omit cookies, enforce fetch time/size limits, reject cross-site redirects.
 - Keep fetched scripts inert and ignore hidden/navigation/footer text.

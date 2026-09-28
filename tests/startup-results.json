@@ -1,0 +1,43 @@
+{
+  "passed": 9,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "Chrome-start checking is off by default",
+      "passed": true
+    },
+    {
+      "name": "Startup toggle saves without changing desktop alerts",
+      "passed": true
+    },
+    {
+      "name": "Desktop alerts toggle preserves Chrome-start choice",
+      "passed": true
+    },
+    {
+      "name": "Real Chrome restart checks without opening the extension popup",
+      "passed": true
+    },
+    {
+      "name": "Startup check saves open status, native alert state and badge",
+      "passed": true
+    },
+    {
+      "name": "Startup check is one-shot with no ongoing polling",
+      "passed": true
+    },
+    {
+      "name": "A new browser window does not run a startup check",
+      "passed": true
+    },
+    {
+      "name": "Disabling Chrome-start checking prevents requests after restart",
+      "passed": true
+    },
+    {
+      "name": "Saved watches and startup setting persist across restarts",
+      "passed": true
+    }
+  ],
+  "chromeVersion": "154.0.8037.57"
+}

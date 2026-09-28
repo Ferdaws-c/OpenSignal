@@ -34,11 +34,12 @@ async function check(ids) {
 async function render() {
   const saved = await chrome.storage.local.get(["watches","settings","checking"]);
   currentWatches = saved.watches || [];
-  const settings = {notifications:true, ...(saved.settings || {})};
+  const settings = {notifications:true, onStartup:false, ...(saved.settings || {})};
   $("notifications").checked = settings.notifications;
+  $("onStartup").checked = settings.onStartup;
   $("count").textContent = String(currentWatches.length);
   $("checkAll").disabled = Boolean(saved.checking);
-  $("checkStatus").textContent = saved.checking ? "Checking your pages…" : "Checked when you open OpenSignal.";
+  $("checkStatus").textContent = saved.checking ? "Checking your pages…" : (settings.onStartup ? "Checks on Chrome start and popup open." : "Checked when you open OpenSignal.");
   $("empty").hidden = currentWatches.length > 0;
   const list = $("watchList"); list.replaceChildren();
   for (const watch of currentWatches) {
@@ -89,6 +90,7 @@ $("dvPreset").onclick = () => openEditor(PRESETS.dv);
 $("checkAll").onclick = () => check();
 $("demo").onclick = () => chrome.tabs.create({url:chrome.runtime.getURL("demo.html")});
 $("notifications").onchange = () => message("settings", {settings:{notifications:$("notifications").checked}}).catch(handle);
+$("onStartup").onchange = () => message("settings", {settings:{onStartup:$("onStartup").checked}}).catch(handle);
 $("testNotification").onclick = () => message("testNotification").then(() => announce("Dummy notification sent. If no banner appears, check Windows notification settings.")).catch(handle);
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area === "local" && (changes.watches || changes.settings || changes.checking)) render().catch(handle);
