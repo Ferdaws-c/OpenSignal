@@ -1,0 +1,169 @@
+{
+  "passed": 40,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "Production popup loads with an empty watch list",
+      "passed": true
+    },
+    {
+      "name": "Demo: Registration coming soon",
+      "passed": true
+    },
+    {
+      "name": "Demo: Registration is open",
+      "passed": true
+    },
+    {
+      "name": "Demo: Registration has closed",
+      "passed": true
+    },
+    {
+      "name": "Demo: Event tickets sold out",
+      "passed": true
+    },
+    {
+      "name": "Demo: Old open notice + current upcoming",
+      "passed": true
+    },
+    {
+      "name": "Demo: Open words inside a negative sentence",
+      "passed": true
+    },
+    {
+      "name": "Demo: VGM: school dates + foreign dates pending",
+      "passed": true
+    },
+    {
+      "name": "Demo: VGM: foreign-student date window open",
+      "passed": true
+    },
+    {
+      "name": "Demo: Website requires verification",
+      "passed": true
+    },
+    {
+      "name": "Demo: Website layout changed",
+      "passed": true
+    },
+    {
+      "name": "Demo: Wrong registration year",
+      "passed": true
+    },
+    {
+      "name": "Demo: No registration status on the page",
+      "passed": true
+    },
+    {
+      "name": "Demo: Hidden open text should not count",
+      "passed": true
+    },
+    {
+      "name": "Demo: DV result check is not entry registration",
+      "passed": true
+    },
+    {
+      "name": "Demo: DV active Begin Entry button",
+      "passed": true
+    },
+    {
+      "name": "Demo: DV instructions without an active entry link",
+      "passed": true
+    },
+    {
+      "name": "All 16 sample scenarios use real browser DOM parsing",
+      "passed": true
+    },
+    {
+      "name": "HTML scripts remain inert and hidden content is ignored",
+      "passed": true
+    },
+    {
+      "name": "Ambiguous repeated focus text asks for review",
+      "passed": true
+    },
+    {
+      "name": "Invalid selector returns a review explanation",
+      "passed": true
+    },
+    {
+      "name": "Popup save uses browser permissions, storage, fetch, worker and parser",
+      "passed": true
+    },
+    {
+      "name": "Actual native Chrome notification API accepts a dummy alert",
+      "passed": true
+    },
+    {
+      "name": "Upcoming → open triggers one native notification and toolbar badge",
+      "passed": true
+    },
+    {
+      "name": "Repeat open check does not repeat notification",
+      "passed": true
+    },
+    {
+      "name": "Unclear response preserves alert memory and shows review",
+      "passed": true
+    },
+    {
+      "name": "Closed → reopened sends a new notification",
+      "passed": true
+    },
+    {
+      "name": "Paused watch causes no network request",
+      "passed": true
+    },
+    {
+      "name": "Simultaneous checks coalesce into one fetch",
+      "passed": true
+    },
+    {
+      "name": "Opening the popup automatically checks saved watches",
+      "passed": true
+    },
+    {
+      "name": "Notifications off still updates status and badge",
+      "passed": true
+    },
+    {
+      "name": "Unreachable and HTTP-blocked pages never become open",
+      "passed": true
+    },
+    {
+      "name": "Missing website permission displays Enable access without a request",
+      "passed": true
+    },
+    {
+      "name": "Editing a watch persists revised rules",
+      "passed": true
+    },
+    {
+      "name": "Untrusted watch name is rendered as text",
+      "passed": true
+    },
+    {
+      "name": "Evidence and last-check history persist",
+      "passed": true
+    },
+    {
+      "name": "Offscreen parser closes after each batch",
+      "passed": true
+    },
+    {
+      "name": "Demo selector is interactive and shows an open alert preview",
+      "passed": true
+    },
+    {
+      "name": "No unhandled browser script errors",
+      "passed": true
+    },
+    {
+      "name": "Deleting a watch removes storage and badge",
+      "passed": true
+    }
+  ],
+  "chromeVersion": "154.0.8037.57",
+  "testManifest": "Production source in an isolated test copy; localhost host permission added for headless tests.",
+  "nativeNotificationApi": "Tested successfully; visible Windows banners require manual confirmation."
+}

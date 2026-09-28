@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenSignal</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+<header class="top"><div class="brand"><span class="mark" aria-hidden="true">◉</span><div><h1>OpenSignal</h1><p>Catch the moment registration opens.</p></div></div><span class="local">LOCAL</span></header>
+<main>
+<div class="toolbar"><div><h2>Your watches <span id="count">0</span></h2><p id="checkStatus" role="status">Ready when you are.</p></div><button id="checkAll" class="secondary">↻ Check now</button></div>
+<div id="notice" class="notice" role="status" hidden></div>
+<section id="watchList" aria-label="Saved registration watches"></section>
+<section id="empty" class="empty" hidden><div class="empty-orbit" aria-hidden="true">◎</div><h3>What are you waiting for?</h3><p>Add a registration page. OpenSignal checks it each time you open this popup.</p></section>
+<div class="addrow"><button id="add" class="primary">＋ Add a watch</button><button id="demo" class="text-button">Try sample scenarios ↗</button></div>
+<section class="starters"><h3>Quick starts</h3><div class="preset-row"><button id="vgmPreset" class="preset"><span>🎓</span><strong>VGM scholarship</strong><small>Foreign-student application</small></button><button id="dvPreset" class="preset"><span>🌎</span><strong>DV Lottery</strong><small>Official entry portal</small></button></div></section>
+<details class="settings"><summary>Settings &amp; test alert</summary><label class="toggle"><input type="checkbox" id="notifications"> Desktop alerts when a watch opens</label><button id="testNotification" class="secondary">Send a dummy notification</button><p>OpenSignal also shows open watches on its toolbar badge. Windows notification settings may suppress desktop banners.</p></details>
+<footer>No AI. No tokens. No scheduled polling.<br><span>Checks use the phrases you choose. Always confirm on the website.</span></footer>
+</main>
+<dialog id="editor"><form id="watchForm"><div class="dialog-title"><h2 id="editorTitle">Add a watch</h2><button type="button" id="cancel" class="icon-button" aria-label="Close editor">×</button></div>
+<input type="hidden" id="watchId">
+<label>Name<input id="name" required maxlength="100" placeholder="e.g. Autumn hackathon"></label>
+<label>Registration page<input id="url" type="url" required placeholder="https://…"></label>
+<p class="hint">Chrome will ask for access to this website only.</p>
+<label>Open phrases <span class="optional">one per line · any match</span><textarea id="openPhrases" rows="3" required placeholder="registration is open&#10;apply now&#10;tickets on sale"></textarea></label>
+<label>Not open yet <span class="optional">one per line</span><textarea id="upcomingPhrases" rows="2" placeholder="coming soon&#10;registration will open"></textarea></label>
+<label>Closed phrases <span class="optional">one per line</span><textarea id="closedPhrases" rows="2" placeholder="registration is closed&#10;sold out"></textarea></label>
+<details class="advanced"><summary>Focus on the right section</summary>
+<label>Section contains <span class="optional">optional</span><input id="focusText" placeholder="e.g. Yabancı Uyruklu Öğrenci Bursu"></label>
+<label>Current round must contain <span class="optional">one per line · all required</span><textarea id="requiredPhrases" rows="2" placeholder="e.g. 2026-2027 or DV-2028"></textarea></label>
+<label>Registration button/link text <span class="optional">optional</span><input id="actionText" placeholder="e.g. Begin Entry"></label>
+<label>Section CSS selector <span class="optional">advanced · optional</span><input id="selector" placeholder="e.g. #current-registration"></label>
+<label>Published date range<select id="dateMode"><option value="none">Use phrases only</option><option value="turkish">Turkish dates · Türkiye time (UTC+3)</option></select></label>
+<p class="hint">Closed or upcoming wording takes priority over open phrases. Turkish date mode reads two full dates in the selected section. Old rounds need their own watch or updated rules.</p></details>
+<div id="formError" class="form-error" role="alert"></div><button type="submit" id="saveWatch" class="primary wide">Save &amp; check</button>
+</form></dialog>
+<template id="watchTemplate"><article class="watch"><div class="watch-heading"><div><h3></h3><span class="host"></span></div><span class="status"></span></div><p class="reason"></p><p class="evidence"></p><p class="checked"></p><div class="watch-actions"><a class="visit" target="_blank" rel="noopener noreferrer">Open website ↗</a><div><button class="access" hidden>Enable access</button><button class="pause">Pause</button><button class="edit">Edit</button><button class="remove" aria-label="Delete watch">×</button></div></div></article></template>
+<script type="module" src="popup.js"></script></body></html>
